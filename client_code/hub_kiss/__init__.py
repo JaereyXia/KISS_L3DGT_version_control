@@ -20,3 +20,10 @@ class hub_kiss(hub_kissTemplate):
 
   
     # Any code you write here will run before the form opens.
+
+  @handle("Home", "click")
+  def Home_click(self, **event_args):
+    """This event is called when the button is clicked"""    
+    open_form('hub_kiss')#go back to hub
+    
+    
