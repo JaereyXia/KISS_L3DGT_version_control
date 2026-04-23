@@ -1,36 +1,4 @@
 components:
-- components:
-  - event_bindings: {}
-    layout_properties: {grid_position: 'MOOHSN,TTFVVV'}
-    name: label_1
-    properties:
-      align: center
-      bold: true
-      font_size: 20
-      foreground: theme:Primary
-      icon: ''
-      role: title
-      spacing:
-        margin: [null, 0, null, 0]
-      text: Kiss
-    type: Label
-  layout_properties: {slot: left-nav}
-  name: column_panel_1
-  properties: {}
-  type: ColumnPanel
-- layout_properties: {slot: default}
-  name: search_bar
-  properties:
-    align: left
-    font: ''
-    font_size: -1
-    italic: true
-    margin: [null, 0, null, null]
-    placeholder: rearch posts...
-    text: ''
-    underline: false
-    visible: true
-  type: TextBox
 - event_bindings: {}
   layout_properties: {slot: title}
   name: Home
@@ -40,6 +8,43 @@ components:
   name: spacer_1
   properties: {height: 32}
   type: Spacer
+- components:
+  - layout_properties: {grid_position: 'VQJCSW,SHPYVX'}
+    name: search_bar
+    properties:
+      align: left
+      font: ''
+      font_size: -1
+      italic: true
+      margin: [null, 0, null, null]
+      placeholder: rearch posts...
+      text: ''
+      underline: false
+      visible: true
+    type: TextBox
+  - layout_properties: {grid_position: 'MEQLMD,XMNKIZ'}
+    name: column_panel_2
+    properties: {}
+    type: ColumnPanel
+  layout_properties: {slot: default}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+- event_bindings: {}
+  layout_properties: {slot: left-nav}
+  name: label_1
+  properties:
+    align: center
+    bold: true
+    font_size: 20
+    foreground: theme:Primary
+    icon: ''
+    role: title
+    spacing:
+      margin: [null, 0, null, 0]
+    text: |
+      -KISS
+  type: Label
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate

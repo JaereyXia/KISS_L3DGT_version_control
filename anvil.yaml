@@ -1,5 +1,15 @@
 allow_embedding: false
 db_schema:
+  table_2:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      client_hidden: false
+      name: card name
+      type: string
+    indexes: []
+    server: full
+    title: Table 2
   users:
     client: none
     columns:
