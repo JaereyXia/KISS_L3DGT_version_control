@@ -30,21 +30,31 @@ components:
   name: column_panel_1
   properties: {}
   type: ColumnPanel
-- event_bindings: {}
+- components:
+  - layout_properties: {grid_position: 'DLNBLE,FLCIGF'}
+    name: label_1
+    properties: {align: center, font_size: 22, icon: '', italic: true, text: KISS}
+    type: Label
+  - layout_properties: {grid_position: 'DJPQXU,LXNRQM'}
+    name: button_1
+    properties: {text: button_1}
+    type: Button
+  - layout_properties: {grid_position: 'EEKSSC,OFZCBV'}
+    name: button_2
+    properties: {text: button_2}
+    type: Button
+  - layout_properties: {grid_position: 'WKVCCA,HXUMMJ'}
+    name: button_3
+    properties: {text: button_3}
+    type: Button
+  - layout_properties: {grid_position: 'QGZNRM,XVAZRN'}
+    name: button_4
+    properties: {text: button_4}
+    type: Button
   layout_properties: {slot: left-nav}
-  name: label_1
-  properties:
-    align: center
-    bold: true
-    font_size: 20
-    foreground: theme:Primary
-    icon: ''
-    role: title
-    spacing:
-      margin: [null, 0, null, 0]
-    text: |
-      -KISS
-  type: Label
+  name: column_panel
+  properties: {}
+  type: ColumnPanel
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate
