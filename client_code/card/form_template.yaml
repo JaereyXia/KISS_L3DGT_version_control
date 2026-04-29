@@ -1,5 +1,14 @@
 components:
-- layout_properties: {slot: default}
+- components:
+  - layout_properties: {grid_position: 'TNAMPK,NEDJAQ'}
+    name: button_2
+    properties: {align: left, font_size: 20, icon: 'fa:arrow-left', text: Back to Home}
+    type: Button
+  - layout_properties: {full_width_row: false, grid_position: 'QQXJNI,MLFWFS'}
+    name: column_panel_2
+    properties: {border: '', col_spacing: medium, role: elevated-card}
+    type: ColumnPanel
+  layout_properties: {slot: default}
   name: content_panel
   properties: {}
   type: ColumnPanel
@@ -7,7 +16,20 @@ components:
   name: navbar_links
   properties: {}
   type: FlowPanel
+- components:
+  - layout_properties: {grid_position: 'HDRGLT,PIYRZM'}
+    name: button_1
+    properties: {text: Home}
+    type: Button
+  layout_properties: {slot: title}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+- layout_properties: {slot: top-left-btn}
+  name: label_1
+  properties: {font_size: 22, italic: true, text: KISS, underline: false}
+  type: Label
 container:
-  properties: {html: '@theme:standard-page.html'}
+  properties: {html: '@theme:standard-page.html', role: null}
   type: HtmlTemplate
 is_package: true
