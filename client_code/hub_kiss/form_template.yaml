@@ -1,9 +1,4 @@
 components:
-- event_bindings: {}
-  layout_properties: {slot: title}
-  name: Home
-  properties: {font_size: 20, text: Home}
-  type: Button
 - layout_properties: {slot: nav-right}
   name: spacer_1
   properties: {height: 32}
@@ -55,6 +50,10 @@ components:
   name: column_panel
   properties: {}
   type: ColumnPanel
+- layout_properties: {slot: title}
+  name: label_2
+  properties: {text: The hub}
+  type: Label
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate
