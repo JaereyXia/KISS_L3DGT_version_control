@@ -13,3 +13,7 @@ class card(cardTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+  @handle("back_home_botton", "click")
+  def back_home_botton_click(self, **event_args):
+    open_form('hub_kiss')

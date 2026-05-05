@@ -25,5 +25,9 @@ class hub_kiss(hub_kissTemplate):
   def Home_click(self, **event_args):
     """This event is called when the button is clicked"""    
     open_form('hub_kiss')#go back to hub
+
+  @handle("New_post_button", "click")
+  def New_post_button_click(self, **event_args):
+    open_form('card')
     
     
