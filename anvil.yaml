@@ -1,6 +1,6 @@
 allow_embedding: false
 db_schema:
-  table_2:
+  cards:
     client: none
     columns:
     - admin_ui: {order: 0, width: 200}
@@ -9,7 +9,7 @@ db_schema:
       type: string
     indexes: []
     server: full
-    title: Table 2
+    title: Cards
   users:
     client: none
     columns:
