@@ -7,6 +7,15 @@ db_schema:
       client_hidden: false
       name: card name
       type: string
+    - admin_ui: {order: 1, width: 200}
+      client_hidden: false
+      name: Content
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      client_hidden: false
+      name: Categories
+      target: users
+      type: link_single
     indexes: []
     server: full
     title: Cards
