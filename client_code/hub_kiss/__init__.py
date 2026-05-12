@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
+from ..add_card import add_card
 
 class hub_kiss(hub_kissTemplate):
   def __init__(self, **properties):
@@ -18,6 +19,6 @@ class hub_kiss(hub_kissTemplate):
 
   @handle("New_post_button", "click")
   def New_post_button_click(self, **event_args):
-    open_form('card') #bring the user to the card adding page
+    open_form('add_card') #bring the user to the card adding page
     
     
