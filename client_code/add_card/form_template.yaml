@@ -40,20 +40,13 @@ components:
         text: Post Content
       type: Label
     - data_bindings: []
-      layout_properties: {full_width_row: false, grid_position: 'RYHYRM,ZEPTUE'}
-      name: post_content_descriptive
+      layout_properties: {grid_position: 'OVTGAL,KLHZER'}
+      name: text_area_1
       properties:
-        align: left
-        background: ''
-        bold: false
-        border: ''
-        foreground: ''
-        italic: true
-        margin: [10, 0, 248, null]
+        auto_expand: true
+        margin: [null, null, '50', null]
         placeholder: Share your thoughts, questions, or information with the community...
-        text: ''
-        underline: false
-      type: TextBox
+      type: TextArea
     - layout_properties: {full_width_row: false, grid_position: 'LCGHOT,FHCEAV'}
       name: cancel_button
       properties:
