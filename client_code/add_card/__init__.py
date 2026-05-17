@@ -24,7 +24,11 @@ class add_card(add_cardTemplate):
   def back_home_botton_click(self, **event_args):
     open_form('hub_kiss')
 
-  q
+  def clear_inputs(self):
+    # Clear our two text boxes
+    self.post_title_descriptive.text = ""
+    self.text_area_1.text = ""
+
   
   @handle("cancel_button", "click")
   def cancer_button_click(self, **event_args):
