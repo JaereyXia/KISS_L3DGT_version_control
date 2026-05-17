@@ -8,4 +8,5 @@ unique_ids:
     hub_kiss.ItemTemplate1: '1776901755007541410557168.60474'
   modules: {}
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '177901158853839569211663.13787'

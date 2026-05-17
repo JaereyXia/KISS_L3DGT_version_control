@@ -1,5 +1,6 @@
 from ._anvil_designer import add_cardTemplate
 from anvil import *
+import anvil.server
 import anvil.google.auth, anvil.google.drive
 from anvil.google.drive import app_files
 import anvil.users
@@ -43,7 +44,7 @@ class add_card(add_cardTemplate):
     text = self.text_area_1 # Set 'text' to the text in the 'text area'
     # pass in post_title, text as arguments
     self.check_blank_post()# check if the text area or post title is blank
-    if self.key:#if the key is true, then it means that the user fill in the post title and post content
+    if self.check_key:#if the key is true, then it means that the user fill in the post title and post content
       anvil.server.call('add_feedback', post_title, text) # Set 'feedback' to the text in the 'feedback_box'
       Notification("Post created").show() # Show a popup that says 'Feedback submitted!'
 
