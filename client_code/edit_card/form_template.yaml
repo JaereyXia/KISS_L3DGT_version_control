@@ -1,0 +1,135 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'TNAMPK,NEDJAQ'}
+    name: back_home_botton
+    properties:
+      align: left
+      font_size: 20
+      icon: fa:arrow-left
+      spacing:
+        margin: [null, '700', null, null]
+      text: Back to Home
+    type: Button
+  - components:
+    - layout_properties: {grid_position: 'MEPQDM,VWNKVZ'}
+      name: label_2
+      properties: {bold: false, font_size: 20, text: Create New Post}
+      type: Label
+    - layout_properties: {grid_position: 'JQFQFU,IUUYSD'}
+      name: label_3
+      properties:
+        font_size: 16
+        spacing:
+          margin: [0, null, 0, null]
+        text: Post title
+      type: Label
+    - data_bindings: []
+      layout_properties: {grid_position: 'AZKEPE,XQHHQP'}
+      name: post_title_descriptive
+      properties: {italic: true, placeholder: Enter a descriptive title for your post, text: ''}
+      type: TextBox
+    - layout_properties: {grid_position: 'HEOYDQ,WMVSWI'}
+      name: label_4
+      properties:
+        bold: false
+        font_size: 16
+        italic: false
+        spacing:
+          margin: [0, null, 0, null]
+        text: Post Content
+      type: Label
+    - data_bindings: []
+      layout_properties: {grid_position: 'OVTGAL,KLHZER'}
+      name: text_area_1
+      properties:
+        auto_expand: true
+        margin: [null, null, '50', null]
+        placeholder: Share your thoughts, questions, or information with the community...
+      type: TextArea
+    - layout_properties: {full_width_row: false, grid_position: 'LCGHOT,FHCEAV'}
+      name: cancel_button
+      properties:
+        align: right
+        bold: false
+        border: ''
+        font_size: 18
+        foreground: '#000000'
+        icon: ''
+        role: elevated-button
+        spacing:
+          margin: [null, 0, null, 220]
+        text: Cancel
+      type: Button
+    - layout_properties: {grid_position: 'LCGHOT,KSPLGA'}
+      name: save_button
+      properties:
+        align: left
+        font_size: 18
+        icon: ''
+        role: filled-button
+        spacing:
+          margin: [null, null, null, 0]
+        text: Save
+      type: Button
+    layout_properties: {full_width_row: false, grid_position: 'QQXJNI,MLFWFS'}
+    name: column_panel_2
+    properties: {border: '', col_spacing: medium, col_widths: '{"FHCEAV":45,"KSPLGA":15}', role: elevated-card}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FRJAUF,HPAGXJ'}
+      name: label_6
+      properties:
+        font_size: 18
+        text: |
+          Posting Guidelines
+      type: Label
+    - layout_properties: {grid_position: 'MWTWEW,ACPTOY'}
+      name: label_7
+      properties:
+        font_size: 16
+        role: body
+        text: |-
+          • Be respectful and supportive of fellow students
+          • Keep content relevant to student support and community building
+          • Use clear, descriptive titles to help others find your post
+          • Check for similar posts before creating a new one
+      type: Label
+    layout_properties: {grid_position: 'OTPLTO,FNBECT'}
+    name: column_panel_4
+    properties: {role: elevated-card}
+    type: ColumnPanel
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {}
+  type: ColumnPanel
+- layout_properties: {slot: nav-right}
+  name: navbar_links
+  properties: {}
+  type: FlowPanel
+- components:
+  - layout_properties: {grid_position: 'MTEXRT,RQLZKM'}
+    name: label_5
+    properties:
+      align: center
+      role: null
+      spacing:
+        margin: [0, null, null, 5]
+      text: Create a new post
+    type: Label
+  layout_properties: {slot: title}
+  name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'FKTPBF,YELQVJ'}
+    name: label_1
+    properties: {align: center, font_size: 22, italic: true, text: KISS, underline: false}
+    type: Label
+  layout_properties: {slot: left-nav}
+  name: column_panel_3
+  properties: {}
+  type: ColumnPanel
+container:
+  properties: {html: '@theme:standard-page.html', role: null}
+  type: HtmlTemplate
+is_package: true
