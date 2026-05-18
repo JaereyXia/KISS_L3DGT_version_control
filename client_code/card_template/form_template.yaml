@@ -7,11 +7,11 @@ components:
     properties: {bold: true, role: title}
     type: Label
   - layout_properties: {grid_position: 'JEBILT,CPDDKB'}
-    name: button_1
+    name: edit_button
     properties: {align: right, icon: 'fa:edit', role: filled-button, text: ''}
     type: Button
   - layout_properties: {grid_position: 'JEBILT,RULOHD'}
-    name: button_2
+    name: delete_button
     properties: {align: left, background: 'theme:Primary Container', foreground: '', icon: 'fa:trash-o', role: outlined-button, text: ''}
     type: Button
   - data_bindings:
