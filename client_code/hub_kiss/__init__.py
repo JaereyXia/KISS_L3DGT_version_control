@@ -14,6 +14,7 @@ class hub_kiss(hub_kissTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.refresh_post()
 
 
   
@@ -23,4 +24,8 @@ class hub_kiss(hub_kissTemplate):
   def New_post_button_click(self, **event_args):
     open_form('add_card') #bring the user to the card adding page
     
-    
+  def refresh_post(self):
+    # Load existing articles from the Data Table, 
+    # and display them in the RepeatingPanel
+    self.cards_panel.items = anvil.server.call('get_post')
+

@@ -29,3 +29,9 @@ def add_post(post_title, text):
     Content=text, 
     Created=datetime.now()
   )
+@anvil.server.callable
+def get_post():
+  # Get a list of post from the Data Table, sorted by 'created' column, in descending order
+  return app_tables.cards.search(
+    tables.order_by("Created", ascending=False)
+  )

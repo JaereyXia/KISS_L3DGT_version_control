@@ -9,7 +9,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 
-
 class add_card(add_cardTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -29,6 +28,14 @@ class add_card(add_cardTemplate):
     self.post_title_descriptive.text = ""
     self.text_area_1.text = ""
 
+  def check_blank_post(self): # this is to check if the poster is fill in or not
+  #if any of the text box is blank, the code will send a notification to the user to tell him/her
+    if self.post_title_descriptive.text == "":
+      Notification("You haven't added a title to this article yet. Please check the title again.").show()
+    elif self.text_area_1.text == "":
+      Notification("You haven't added a content to this article yet. Please check the content again.").show()
+    else:#else the code will tell the key that the user has fill the post and it's ready to be send.
+      self.check_key = True
   
   @handle("cancel_button", "click")
   def cancer_button_click(self, **event_args):
@@ -53,19 +60,11 @@ class add_card(add_cardTemplate):
     if self.check_key:#if the key is true, then it means that the user fill in the post title and post content
       anvil.server.call('add_post', post_title, text) # Set 'feedback' to the text in the 'feedback_box'
       Notification("Post created").show() # Show a popup that says 'Feedback submitted!'
+      self.clear_inputs() # Call your 'clear_inputs' method to clear the boxes
 
-    self.clear_inputs() # Call your 'clear_inputs' method to clear the boxes
 
   
-  
-  def check_blank_post(self): # this is to check if the poster is fill in or not
-    #if any of the text box is blank, the code will send a notification to the user to tell him/her
-    if self.post_title_descriptive == "":
-      Notification("You haven't added a title to this article yet. Please check the title again.").show()
-    elif self.text_area_1 == "":
-      Notification("You haven't added a content to this article yet. Please check the content again.").show()
-    else:#else the code will tell the key that the user has fill the post and it's ready to be send.
-      self.check_key = True
+
     
     
 
