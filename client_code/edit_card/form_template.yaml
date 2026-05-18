@@ -23,7 +23,8 @@ components:
           margin: [0, null, 0, null]
         text: Post title
       type: Label
-    - data_bindings: []
+    - data_bindings:
+      - {code: 'self.item['''']', property: text, writeback: false}
       layout_properties: {grid_position: 'AZKEPE,XQHHQP'}
       name: post_title_descriptive
       properties: {italic: true, placeholder: Enter a descriptive title for your post, text: ''}
@@ -38,7 +39,8 @@ components:
           margin: [0, null, 0, null]
         text: Post Content
       type: Label
-    - data_bindings: []
+    - data_bindings:
+      - {code: 'self.item['''']', property: text, writeback: false}
       layout_properties: {grid_position: 'OVTGAL,KLHZER'}
       name: text_area_1
       properties:
