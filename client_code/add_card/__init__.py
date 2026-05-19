@@ -55,7 +55,7 @@ class add_card(add_cardTemplate):
     #This method is called when the button is clicked
     post_title = self.post_title_descriptive.text # Set 'post_title' to the text in the 'self.post_title_descriptive'
     text = self.text_area_1.text # Set 'text' to the text in the 'text area'
-    image = FileLoader()
+    image = 
     # pass in post_title, text as arguments
     self.check_blank_post()# check if the text area or post title is blank
     if self.check_key:#if the key is true, then it means that the user fill in the post title and post content
