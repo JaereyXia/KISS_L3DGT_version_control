@@ -49,3 +49,98 @@ def update_post(row, post_title, text, image):
   row['image'] = image
 
 
+@anvil.server.callable
+def search_posts(keyword):
+  import difflib
+
+  # Split the user's search into separate words
+  # Example: "school holiday"
+  # becomes ["school", "holiday"]
+  keywords = keyword.lower().split()
+
+  # Store matching posts
+  results = []
+
+  # Loop through every post in Data Table
+  for row in app_tables.cards.search():
+
+    # Get title and content
+    # If blank, use "" to avoid errors
+    title = (row['Card_name'] or "").lower()
+    content = (row['Content'] or "").lower()
+
+    # Score system:
+    # higher score = better search match
+    score = 0
+
+    # Check every keyword user typed
+    for word in keywords:
+
+      # -------------------------
+      # Normal contains search
+      # -------------------------
+
+      # If keyword exists in title,
+      # add higher score
+      if word in title:
+        score += 5
+
+        # If keyword exists in content,
+        # add smaller score
+      if word in content:
+        score += 3
+
+        # -------------------------
+        # Fuzzy search (typo fixing)
+        # Example:
+        # "schol" -> "school"
+        # -------------------------
+
+        # Split title into words
+      title_words = title.split()
+
+      # Split content into words
+      content_words = content.split()
+
+      # Check title words similarity
+      for title_word in title_words:
+
+        similarity = difflib.SequenceMatcher(
+          None,
+          word,
+          title_word
+        ).ratio()
+
+        # If similarity is high enough,
+        # count as a match
+        if similarity > 0.75:
+          score += 3
+
+          # Check content words similarity
+      for content_word in content_words:
+
+        similarity = difflib.SequenceMatcher(
+          None,
+          word,
+          content_word
+        ).ratio()
+
+        # If similarity is high enough,
+        # add smaller score
+        if similarity > 0.75:
+          score += 1
+
+        # If score is more than 0,
+        # save the post
+    if score > 0:
+      results.append((score, row))
+
+    # Sort results by highest score first
+    # Most relevant post appears on top
+  results.sort(
+    reverse=True,
+    key=lambda x: x[0]
+  )
+
+  # Return only rows
+  return [row for score, row in results]

@@ -29,3 +29,36 @@ class hub_kiss(hub_kissTemplate):
     # and display them in the RepeatingPanel
     self.cards_panel.items = anvil.server.call('get_post')
 
+  @handle("search_bar", "pressed_enter")
+  def search_bar_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.search_posts()#the user can either enter the search bar to research the posters
+
+  @handle("research_button", "click")
+  def research_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.search_posts()#Or if the user use the research button, it will also research the posters
+
+  def search_posts(self):#serach the posters 
+    keyword = self.search_bar.text
+    if keyword == "":#Show all posts when the search bar is blank
+      self.refresh_post()
+      return
+    results = anvil.server.call('search_posts', keyword)#else if the search bar is not blank
+    self.cards_panel.items = results#show all results
+
+  @handle("search_bar", "change")
+  def search_bar_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    #adding live rearching so the user can see all poster
+    keyword = self.search_bar.text.strip()
+    if keyword == "":
+      self.refresh_post()
+      return
+    results = anvil.server.call(
+      'search_posts',
+      keyword
+    )
+    self.cards_panel.items = results
+
+
