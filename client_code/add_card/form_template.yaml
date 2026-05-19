@@ -7,7 +7,7 @@ components:
       font_size: 20
       icon: fa:arrow-left
       spacing:
-        margin: [null, '700', null, null]
+        margin: [null, '0', null, null]
       text: Back to Home
     type: Button
   - components:
