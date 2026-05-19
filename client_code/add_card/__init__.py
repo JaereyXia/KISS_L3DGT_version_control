@@ -67,6 +67,7 @@ class add_card(add_cardTemplate):
   def image_uploader_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     self.item['image'] = file
+    self.post_image.source = file
 
 
   

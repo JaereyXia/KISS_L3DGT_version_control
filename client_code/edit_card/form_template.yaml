@@ -48,6 +48,21 @@ components:
         margin: [null, null, '50', null]
         placeholder: Share your thoughts, questions, or information with the community...
       type: TextArea
+    - data_bindings: []
+      layout_properties: {grid_position: 'FNMIFN,JYKWKI'}
+      name: post_image
+      properties: {}
+      type: Image
+    - layout_properties: {grid_position: 'SHUTIH,JDTQXI'}
+      name: label_8
+      properties: {align: center, text: Only one image can be upload}
+      type: Label
+    - data_bindings:
+      - {code: 'self.item['''']', property: role, writeback: false}
+      layout_properties: {grid_position: 'ASAEBE,JLFWUL'}
+      name: image_uploader
+      properties: {align: center}
+      type: FileLoader
     - layout_properties: {full_width_row: false, grid_position: 'LCGHOT,FHCEAV'}
       name: cancel_button
       properties:

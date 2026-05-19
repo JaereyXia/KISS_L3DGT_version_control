@@ -40,3 +40,12 @@ def get_post():
   return app_tables.cards.search(
     tables.order_by("Created", ascending=False)
   )
+
+@anvil.server.callable
+def update_post(row, post_title, text, image):
+  #updata a card
+  row['Card_name'] = post_title
+  row['Content'] = text
+  row['image'] = image
+
+

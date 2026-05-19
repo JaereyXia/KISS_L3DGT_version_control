@@ -19,5 +19,5 @@ class card_template(card_templateTemplate):
   @handle("edit_button", "click")
   def edit_button_click(self, **event_args):
     """This method is called when the button is clicked"""
-    open_form('edit_card'，row=self.item)
+    open_form('edit_card', row=self.item)
     

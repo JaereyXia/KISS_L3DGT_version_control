@@ -46,6 +46,10 @@ components:
         margin: [null, null, '50', null]
         placeholder: Share your thoughts, questions, or information with the community...
       type: TextArea
+    - layout_properties: {grid_position: 'NQKSOQ,IRTKXY'}
+      name: post_image
+      properties: {}
+      type: Image
     - layout_properties: {grid_position: 'IVDILG,ZJYNCG'}
       name: label_8
       properties: {align: center, text: Only one image can be upload}

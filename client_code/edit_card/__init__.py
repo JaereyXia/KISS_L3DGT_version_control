@@ -10,15 +10,26 @@ from anvil.tables import app_tables
 
 
 class edit_card(edit_cardTemplate):
-  def __init__(self, **properties):
+  def __init__(self,row=None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
+    self.row = row
+    if self.row:
+      self.post_title_descriptive.text = self.row['Card_name']
+      self.text_area_1.text = self.row['Content']
+      self.post_image.source = self.row['image']
 
     """If the key is true, it allow the post to be send, but if the key is false, 
     it means the user haven't fill in all the context"""
     self.check_key = False
 
+  #if the user updata
+  @handle("image_uploader", "change")
+  def image_uploader_change(self, file, **event_args):
+    self.new_image = file
+    self.post_image.source = file
+    
   @handle("back_home_botton", "click")
   def back_home_botton_click(self, **event_args):
     open_form("hub_kiss")
@@ -67,9 +78,17 @@ class edit_card(edit_cardTemplate):
     self.check_blank_post()  # check if the text area or post title is blank
     if self.check_key:  # if the key is true, then it means that the user fill in the post title and post content
       anvil.server.call(
-        "add_post", post_title, text
+        "update_post", 
+        self.row,
+        post_title,
+        text
       )  # Set 'feedback' to the text in the 'feedback_box'
       Notification(
-        "Post created"
+        "Post updated"
       ).show()  # Show a popup that says 'Feedback submitted!'
-      self.clear_inputs()  # Call your 'clear_inputs' method to clear the boxes
+      open_form('hub_kiss')
+
+  @handle("image_uploader", "change")
+  def image_uploader_change(self, file, **event_args):
+    """This method is called when a new file is loaded into this FileLoader"""
+    pass  # Write Code Here
