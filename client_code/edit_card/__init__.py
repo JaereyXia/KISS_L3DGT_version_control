@@ -24,7 +24,7 @@ class edit_card(edit_cardTemplate):
     it means the user haven't fill in all the context"""
     self.check_key = False
 
-  #if the user updata
+  #if the user updload a new image
   @handle("image_uploader", "change")
   def image_uploader_change(self, file, **event_args):
     self.new_image = file
@@ -77,18 +77,19 @@ class edit_card(edit_cardTemplate):
     # pass in post_title, text as arguments
     self.check_blank_post()  # check if the text area or post title is blank
     if self.check_key:  # if the key is true, then it means that the user fill in the post title and post content
+      #If the image hasn't been changed, keep the old one. 
+      image = getattr(self, "new_image", self.row['image'])
       anvil.server.call(
         "update_post", 
         self.row,
         post_title,
-        text
+        text,
+        image
+        
       )  # Set 'feedback' to the text in the 'feedback_box'
       Notification(
         "Post updated"
       ).show()  # Show a popup that says 'Feedback submitted!'
       open_form('hub_kiss')
 
-  @handle("image_uploader", "change")
-  def image_uploader_change(self, file, **event_args):
-    """This method is called when a new file is loaded into this FileLoader"""
-    pass  # Write Code Here
+
