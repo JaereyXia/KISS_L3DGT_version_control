@@ -57,8 +57,8 @@ class edit_card(edit_cardTemplate):
     """This method is called when the button is clicked"""
     # Add double-checking to ensure users clearly understand that they want to cancel posting.
     save_clicked = alert(
-      content="Are you sure to cancel this post?",
-      title="Cancel the post",
+      content="Are you sure to cancel this edit?",
+      title="Cancel the edit",
       large=True,
       buttons=[("Yes", True), ("No", False)],
     )
