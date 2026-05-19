@@ -23,11 +23,15 @@ from datetime import datetime
 
 #Store post data using a server function
 @anvil.server.callable
-def add_post(post_title, text):
+def add_post(post_title, text, image):
+  import uuid
   app_tables.cards.add_row(
     Card_name=post_title, 
     Content=text, 
-    Created=datetime.now()
+    Created=datetime.now(),
+    image=image,
+    post_id = str(uuid.uuid4())
+    
     
   )
 @anvil.server.callable
