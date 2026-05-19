@@ -28,6 +28,7 @@ def add_post(post_title, text):
     Card_name=post_title, 
     Content=text, 
     Created=datetime.now()
+    
   )
 @anvil.server.callable
 def get_post():

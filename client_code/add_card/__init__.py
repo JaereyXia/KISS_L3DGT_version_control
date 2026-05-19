@@ -55,12 +55,18 @@ class add_card(add_cardTemplate):
     #This method is called when the button is clicked
     post_title = self.post_title_descriptive.text # Set 'post_title' to the text in the 'self.post_title_descriptive'
     text = self.text_area_1.text # Set 'text' to the text in the 'text area'
+    image = FileLoader()
     # pass in post_title, text as arguments
     self.check_blank_post()# check if the text area or post title is blank
     if self.check_key:#if the key is true, then it means that the user fill in the post title and post content
       anvil.server.call('add_post', post_title, text) # Set 'feedback' to the text in the 'feedback_box'
       Notification("Post created").show() # Show a popup that says 'Feedback submitted!'
       self.clear_inputs() # Call your 'clear_inputs' method to clear the boxes
+
+  @handle("image_uploader", "change")
+  def image_uploader_change(self, file, **event_args):
+    """This method is called when a new file is loaded into this FileLoader"""
+    self.item['image'] = file
 
 
   
