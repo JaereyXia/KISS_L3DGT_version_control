@@ -15,6 +15,12 @@ class card_template(card_templateTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
+    # If there is no image,
+    # hide image component
+    if self.item['image'] is None:
+      self.image_1.visible = False
+    else:
+      self.image_1.visible = True
 
   @handle("edit_button", "click")
   def edit_button_click(self, **event_args):
