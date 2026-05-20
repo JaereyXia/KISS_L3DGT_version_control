@@ -41,13 +41,14 @@ def get_post():
     tables.order_by("Created", ascending=False)
   )
 
-@anvil.server.callable
+"""@anvil.server.callable
 def update_post(row, post_title, text, image):
   #updata a card
   row['Card_name'] = post_title
   row['Content'] = text
   row['image'] = image
-
+  #old update post funtion that I may need for version control
+"""
 
 @anvil.server.callable
 def search_posts(keyword):
@@ -139,54 +140,73 @@ def search_posts(keyword):
 
 
   #set all the user that just sign up a start role of student
-  @anvil.server.callable
-  def create_profile(user):
-    app_tables.profiles.add_row(
-      user=user,
-      role="student"
-    )
+@anvil.server.callable
+def create_profile(user):
+  app_tables.profiles.add_row(
+    user=user,
+    role="student"
+  )
 
 
   #Get user's role
-  @anvil.server.callable
-  def get_user_role():
-    user = anvil.users.get_user()
-    profile = app_tables.profiles.get(user = user)
-    return profile['role']
+@anvil.server.callable
+def get_user_role():
+  user = anvil.users.get_user()
 
+  # Not logged in
+  if not user:
+    return None
+
+  profile = app_tables.profiles.get(
+    user=user
+  )
+
+  # No profile found
+  if not profile:
+    return "student"
+
+  return profile['role']
+  '''
+  # Get current logged in user
+  user = anvil.users.get_user()
+  # Find user's profile
+  profile = app_tables.profiles.get(user = user)
+  # Return role
+  return profile['role']
+  '''
   
-  @anvil.server.callable
-  def update_post(
-    row,
-    post_title,
-    text,
-    image
-  ):
-  
-    user = anvil.users.get_user()
-  
-    profile = app_tables.profiles.get(
-      user=user
-    )
-  
-    role = profile['role']
-  
-    # Check permission
-    is_owner = (
-      row['creator'] == user
-    )
-  
-    is_teacher = (
-      role == "teacher"
-    )
-  
-    if not (is_owner
-      or is_teacher
-    ):
-  
-      raise Exception("No permission.")
-  
-      # Update post
-    row['Card_name'] = post_title
-    row['Content'] = text
-    row['image'] = image
+
+#update funtion
+@anvil.server.callable
+def update_post(row, post_title, text, image):
+  user = anvil.users.get_user()
+  profile = app_tables.profiles.get(user = user)
+  role = profile['role']
+  # Check permission
+  is_owner = (row['creator'] == user)
+  is_teacher = (role == "teacher")
+  if not (is_owner or is_teacher):
+    raise Exception("No permission.")
+    # Update post
+  row['Card_name'] = post_title
+  row['Content'] = text
+  row['image'] = image
+
+
+  #delte funtion
+@anvil.server.callable
+def delete_post(row):
+  # Get current logged in user
+  user = anvil.users.get_user()
+  # Find profile
+  profile = app_tables.profiles.get(user = user)
+  role = profile['role']
+  # Check ownership
+  is_owner = (row['creator'] == user)
+  # Teacher override
+  is_teacher = (role == "teacher")
+  # No permission
+  if not (is_owner or is_teacher):
+    raise Exception("No permission.")
+  # Delete row
+  row.delete()
