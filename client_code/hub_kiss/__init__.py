@@ -61,4 +61,6 @@ class hub_kiss(hub_kissTemplate):
     )
     self.cards_panel.items = results
 
+  
+
 

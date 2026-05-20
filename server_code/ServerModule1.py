@@ -105,11 +105,7 @@ def search_posts(keyword):
       # Check title words similarity
       for title_word in title_words:
 
-        similarity = difflib.SequenceMatcher(
-          None,
-          word,
-          title_word
-        ).ratio()
+        similarity = difflib.SequenceMatcher(None, word, title_word).ratio()
 
         # If similarity is high enough,
         # count as a match
@@ -119,11 +115,7 @@ def search_posts(keyword):
           # Check content words similarity
       for content_word in content_words:
 
-        similarity = difflib.SequenceMatcher(
-          None,
-          word,
-          content_word
-        ).ratio()
+        similarity = difflib.SequenceMatcher(None, word, content_word).ratio()
 
         # If similarity is high enough,
         # add smaller score
@@ -144,3 +136,57 @@ def search_posts(keyword):
 
   # Return only rows
   return [row for score, row in results]
+
+
+  #set all the user that just sign up a start role of student
+  @anvil.server.callable
+  def create_profile(user):
+    app_tables.profiles.add_row(
+      user=user,
+      role="student"
+    )
+
+
+  #Get user's role
+  @anvil.server.callable
+  def get_user_role():
+    user = anvil.users.get_user()
+    profile = app_tables.profiles.get(user = user)
+    return profile['role']
+
+  
+  @anvil.server.callable
+  def update_post(
+    row,
+    post_title,
+    text,
+    image
+  ):
+  
+    user = anvil.users.get_user()
+  
+    profile = app_tables.profiles.get(
+      user=user
+    )
+  
+    role = profile['role']
+  
+    # Check permission
+    is_owner = (
+      row['creator'] == user
+    )
+  
+    is_teacher = (
+      role == "teacher"
+    )
+  
+    if not (is_owner
+      or is_teacher
+    ):
+  
+      raise Exception("No permission.")
+  
+      # Update post
+    row['Card_name'] = post_title
+    row['Content'] = text
+    row['image'] = image
