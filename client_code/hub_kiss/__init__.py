@@ -17,6 +17,11 @@ class hub_kiss(hub_kissTemplate):
     self.refresh_post()
 
 
+    self.user = anvil.users.get_user()
+
+    self.role = anvil.server.call('get_user_role')
+
+
   
     # Any code you write here will run before the form opens.
 
@@ -27,7 +32,17 @@ class hub_kiss(hub_kissTemplate):
   def refresh_post(self):
     # Load existing articles from the Data Table, 
     # and display them in the RepeatingPanel
-    self.cards_panel.items = anvil.server.call('get_post')
+    # Get current user
+    self.user = anvil.users.get_user()
+
+    # Get role once only
+    self.role = anvil.server.call('get_user_role')
+
+    # Get posts
+    posts = anvil.server.call('get_post')
+
+    # Add role + user info
+    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in posts]
 
   @handle("search_bar", "pressed_enter")
   def search_bar_pressed_enter(self, **event_args):
@@ -45,7 +60,7 @@ class hub_kiss(hub_kissTemplate):
       self.refresh_post()
       return
     results = anvil.server.call('search_posts', keyword)#else if the search bar is not blank
-    self.cards_panel.items = results#show all results
+    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in results]
 
   @handle("search_bar", "change")
   def search_bar_change(self, **event_args):
@@ -59,7 +74,7 @@ class hub_kiss(hub_kissTemplate):
       'search_posts',
       keyword
     )
-    self.cards_panel.items = results
+    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in results]
 
   
 

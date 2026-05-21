@@ -1,95 +1,154 @@
 from ._anvil_designer import edit_cardTemplate
 from anvil import *
 import anvil.server
-import anvil.google.auth, anvil.google.drive
-from anvil.google.drive import app_files
-import anvil.users
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
 
 
 class edit_card(edit_cardTemplate):
-  def __init__(self,row=None, **properties):
-    # Set Form properties and Data Bindings.
-    self.init_components(**properties)
-    # Any code you write here will run before the form opens.
-    self.row = row
-    if self.row:
-      self.post_title_descriptive.text = self.row['Card_name']
-      self.text_area_1.text = self.row['Content']
-      self.post_image.source = self.row['image']
 
-    """If the key is true, it allow the post to be send, but if the key is false, 
-    it means the user haven't fill in all the context"""
+  def __init__(
+    self,
+    row=None,
+    **properties
+  ):
+
+    # Initialize form
+    self.init_components(**properties)
+
+    # Save row
+    self.row = row
+
+    # Default image
+    self.new_image = None
+
+    # Load existing data
+    if self.row:
+
+      self.post_title_descriptive.text = (
+        self.row['Card_name']
+      )
+
+      self.text_area_1.text = (
+        self.row['Content']
+      )
+
+      self.post_image.source = (
+        self.row['image']
+      )
+
+    # Validation key
     self.check_key = False
 
-  #if the user updload a new image
+
   @handle("image_uploader", "change")
-  def image_uploader_change(self, file, **event_args):
+  def image_uploader_change(
+    self,
+    file,
+    **event_args
+  ):
+
+    # Save uploaded image
     self.new_image = file
+
+    # Show preview
     self.post_image.source = file
-    
+
+
   @handle("back_home_botton", "click")
-  def back_home_botton_click(self, **event_args):
+  def back_home_botton_click(
+    self,
+    **event_args
+  ):
+
     open_form("hub_kiss")
 
-  def clear_inputs(self):
-    # Clear our two text boxes
-    self.post_title_descriptive.text = ""
-    self.text_area_1.text = ""
 
-  def check_blank_post(self):  # this is to check if the poster is fill in or not
-    # if any of the text box is blank, the code will send a notification to the user to tell him/her
+  def check_blank_post(self):
+
+    # Reset validation
+    self.check_key = False
+
+    # Check title
     if self.post_title_descriptive.text == "":
+
       Notification(
-        "You haven't added a title to this article yet. Please check the title again."
+        "You haven't added a title yet."
       ).show()
+
+    # Check content
     elif self.text_area_1.text == "":
+
       Notification(
-        "You haven't added a content to this article yet. Please check the content again."
+        "You haven't added content yet."
       ).show()
-    else:  # else the code will tell the key that the user has fill the post and it's ready to be send.
+
+    # Allow save
+    else:
+
       self.check_key = True
 
+
   @handle("cancel_button", "click")
-  def cancer_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    # Add double-checking to ensure users clearly understand that they want to cancel posting.
+  def cancer_button_click(
+    self,
+    **event_args
+  ):
+
+    # Double-check cancel
     save_clicked = alert(
       content="Are you sure to cancel this edit?",
-      title="Cancel the edit",
+      title="Cancel Edit",
       large=True,
-      buttons=[("Yes", True), ("No", False)],
+      buttons=[
+        ("Yes", True),
+        ("No", False)
+      ]
     )
-    if (
-      save_clicked
-    ):  # if the user is sure and clicked Yes buttom, send him/her back to hub page
+
+    if save_clicked:
+
       open_form("hub_kiss")
 
+
   @handle("save_button", "click")
-  def save_button_click(self, **event_args):
-    # This method is called when the button is clicked
+  def save_button_click(
+    self,
+    **event_args
+  ):
+
+    # Get title
     post_title = (
       self.post_title_descriptive.text
-    )  # Set 'post_title' to the text in the 'self.post_title_descriptive'
-    text = self.text_area_1.text  # Set 'text' to the text in the 'text area'
-    # pass in post_title, text as arguments
-    self.check_blank_post()  # check if the text area or post title is blank
-    if self.check_key:  # if the key is true, then it means that the user fill in the post title and post content
-      #If the image hasn't been changed, keep the old one. 
-      image = getattr(self, "new_image", self.row['image'])
+    )
+
+    # Get content
+    text = self.text_area_1.text
+
+    # Check blanks
+    self.check_blank_post()
+
+    # Passed validation
+    if self.check_key:
+
+      # Keep old image
+      # if user didn't upload new one
+      image = getattr(
+        self,
+        "new_image",
+        self.row['image']
+      )
+
+      # Update post
       anvil.server.call(
-        "update_post", 
+        "update_post",
         self.row,
         post_title,
         text,
         image
-        
-      )  # Set 'feedback' to the text in the 'feedback_box'
+      )
+
       Notification(
         "Post updated"
-      ).show()  # Show a popup that says 'Feedback submitted!'
+      ).show()
+
+      # Return home
       open_form('hub_kiss')
-
-
