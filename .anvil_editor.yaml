@@ -10,6 +10,7 @@ unique_ids:
     hub_kiss.ItemTemplate1: '1776901755007541410557168.60474'
     hub_kiss.ItemTemplate2: '1779063772842766097608992.6652'
     manage_users: '177935607011129727006579.52554'
+    user_card: '1779360418909183317254930.4114'
   modules: {}
   scripts: {}
   server_modules:
