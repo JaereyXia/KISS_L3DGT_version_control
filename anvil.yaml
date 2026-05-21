@@ -77,5 +77,5 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/google.yml
-startup: {module: hub_kiss, type: form}
+startup: {module: manage_users, type: form}
 startup_form: null

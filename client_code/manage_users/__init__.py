@@ -3,38 +3,28 @@ from anvil import *
 import anvil.server
 
 
-class manage_users(
-  manage_usersTemplate
-):
-
-  def __init__(
-    self,
-    **properties
-  ):
-
-    self.init_components(
-      **properties
-    )
-
+class manage_users(manage_usersTemplate):
+  def __init__(self,**properties):
+    self.init_components(**properties)
     # Load users
     self.refresh_users()
 
+    self.role = anvil.server.call('get_user_role')
+    # Hide button
+    self.manage_users_button.visible = False
+    # Teacher only
+    if self.role == "teacher":
+      self.manage_users_button.visible = True
 
   def refresh_users(self):
-
     # Get all users
-    users = anvil.server.call(
-      'get_all_users'
-    )
+    users = anvil.server.call('get_all_users')
 
     # Show users
     self.users_panel.items = users
 
 
-  @handle(
-    "back_button",
-    "click"
-  )
+  @handle("back_button","click")
   def back_button_click(
     self,
     **event_args
@@ -43,3 +33,13 @@ class manage_users(
     open_form(
       'hub_kiss'
     )
+
+  @handle("button_1", "click")
+  def poster_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('hub_kiss')
+
+  @handle("manage_users_button", "click")
+  def manage_users_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('manage_users')

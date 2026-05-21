@@ -5,15 +5,18 @@ import anvil.server
 
 class edit_card(edit_cardTemplate):
 
-  def __init__(
-    self,
-    row=None,
-    **properties
-  ):
-
+  def __init__(self,row=None,**properties):
     # Initialize form
     self.init_components(**properties)
 
+
+    self.role = anvil.server.call('get_user_role')
+    # Hide button
+    self.manage_users_button.visible = False
+    # Teacher only
+    if self.role == "teacher":
+      self.manage_users_button.visible = True
+      
     # Save row
     self.row = row
 
@@ -152,3 +155,13 @@ class edit_card(edit_cardTemplate):
 
       # Return home
       open_form('hub_kiss')
+
+  @handle("poster_button", "click")
+  def poster_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('hub_kiss')
+
+  @handle("manage_users_button", "click")
+  def manage_users_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('manage_users')

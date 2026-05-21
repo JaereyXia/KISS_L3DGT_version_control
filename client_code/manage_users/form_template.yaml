@@ -4,13 +4,13 @@ components:
   properties: {height: 32}
   type: Spacer
 - components:
-  - layout_properties: {grid_position: 'DFABQK,GWXIDO'}
+  - layout_properties: {grid_position: 'RUMIBQ,YZTGTB'}
     name: users_panel
-    properties: {item_template: user_card, role: null}
+    properties: {item_template: user_card, role: elevated-card}
     type: RepeatingPanel
   layout_properties: {slot: default}
   name: column_panel_1
-  properties: {col_widths: '{"DEQNSR":10}'}
+  properties: {col_widths: '{}'}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'DLNBLE,FLCIGF'}
@@ -24,10 +24,6 @@ components:
   - layout_properties: {grid_position: 'EEKSSC,OFZCBV'}
     name: manage_users_button
     properties: {text: Manage Users}
-    type: Button
-  - layout_properties: {grid_position: 'WKVCCA,HXUMMJ'}
-    name: button_3
-    properties: {text: Liked}
     type: Button
   - layout_properties: {grid_position: 'QGZNRM,XVAZRN'}
     name: button_4

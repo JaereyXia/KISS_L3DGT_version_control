@@ -142,6 +142,14 @@ components:
     name: label_1
     properties: {align: center, font_size: 22, italic: true, text: KISS, underline: false}
     type: Label
+  - layout_properties: {grid_position: 'DWFSJW,XIHMJN'}
+    name: poster_button
+    properties: {text: Posters}
+    type: Button
+  - layout_properties: {grid_position: 'SMPVMA,PDHWIN'}
+    name: manage_users_button
+    properties: {text: Manage Users}
+    type: Button
   layout_properties: {slot: left-nav}
   name: column_panel_3
   properties: {}

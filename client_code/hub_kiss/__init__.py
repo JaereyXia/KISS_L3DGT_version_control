@@ -85,6 +85,11 @@ class hub_kiss(hub_kissTemplate):
     """This method is called when the button is clicked"""
     open_form('manage_users')
 
+  @handle("poster_button", "click")
+  def poster_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('hub_kiss')
+
   
 
   
