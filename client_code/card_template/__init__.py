@@ -58,7 +58,7 @@ class card_template(card_templateTemplate):
       self.edit_button.visible = True
       self.delete_button.visible = True
 
-    # Student / committee:
+    # Student / ambassadors:
     # own post only
     elif post['creator'] == user:
 

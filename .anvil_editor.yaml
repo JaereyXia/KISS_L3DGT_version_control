@@ -9,6 +9,7 @@ unique_ids:
     hub_kiss: L22KTACXR4CMMKWZV5AYAL32POAPTPKE
     hub_kiss.ItemTemplate1: '1776901755007541410557168.60474'
     hub_kiss.ItemTemplate2: '1779063772842766097608992.6652'
+    manage_users: '177935607011129727006579.52554'
   modules: {}
   scripts: {}
   server_modules:

@@ -257,3 +257,62 @@ def delete_post(row):
     )
 
   row.delete()
+
+# -------------------------
+# Get all users
+# Teacher only
+# -------------------------
+@anvil.server.callable
+def get_all_users():
+
+  # Get current user
+  user = anvil.users.get_user()
+
+  # Get current profile
+  profile = app_tables.profiles.get(
+    user=user
+  )
+
+  # No profile
+  if not profile:
+    raise Exception(
+      "No permission."
+    )
+
+  # Only teacher
+  if profile['role'] != "teacher":
+    raise Exception(
+      "Teacher access only."
+    )
+
+  # Return all profiles
+  return app_tables.profiles.search()
+
+
+# -------------------------
+# Update user role
+# Teacher only
+# -------------------------
+@anvil.server.callable
+def update_user_role(
+  profile_row,
+  new_role
+):
+
+  # Get current user
+  user = anvil.users.get_user()
+
+  # Get profile
+  profile = app_tables.profiles.get(
+    user=user
+  )
+
+  # Teacher only
+  if profile['role'] != "teacher":
+
+    raise Exception(
+      "No permission."
+    )
+
+  # Update role
+  profile_row['role'] = new_role

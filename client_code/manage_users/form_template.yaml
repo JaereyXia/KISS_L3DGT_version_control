@@ -4,42 +4,13 @@ components:
   properties: {height: 32}
   type: Spacer
 - components:
-  - layout_properties: {grid_position: 'UAENEH,HDVPNE'}
-    name: New_post_button
-    properties:
-      icon: fa:plus
-      role: filled-button
-      spacing:
-        margin: [null, '10', null, '10']
-      text: New post
-    type: Button
-  - data_bindings: []
-    layout_properties: {grid_position: 'UAENEH,MIXJLR'}
-    name: search_bar
-    properties:
-      align: left
-      font: ''
-      font_size: -1
-      italic: true
-      margin: [null, '200', null, '10']
-      placeholder: Search posts...
-      role: null
-      text: ''
-      tooltip: ''
-      underline: false
-      visible: true
-    type: TextBox
-  - layout_properties: {grid_position: 'UAENEH,DEQNSR'}
-    name: research_button
-    properties: {icon: 'fa:search', role: outlined-button, text: ''}
-    type: Button
   - layout_properties: {grid_position: 'DFABQK,GWXIDO'}
-    name: cards_panel
-    properties: {item_template: card_template, role: elevated-card}
+    name: users_panel
+    properties: {item_template: null, role: elevated-card}
     type: RepeatingPanel
   layout_properties: {slot: default}
   name: column_panel_1
-  properties: {col_widths: '{"HDVPNE":15,"MIXJLR":55,"DEQNSR":10}'}
+  properties: {col_widths: '{"DEQNSR":10}'}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'DLNBLE,FLCIGF'}
