@@ -20,8 +20,12 @@ class hub_kiss(hub_kissTemplate):
     self.user = anvil.users.get_user()
 
     self.role = anvil.server.call('get_user_role')
-
-
+    
+    # Hide button
+    self.manage_users_button.visible = False
+    # Teacher only
+    if self.role == "teacher":
+      self.manage_users_button.visible = True
   
     # Any code you write here will run before the form opens.
 
@@ -75,6 +79,13 @@ class hub_kiss(hub_kissTemplate):
       keyword
     )
     self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in results]
+
+  @handle("manage_users_button", "click")
+  def manage_users_button_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    open_form('manage_users')
+
+  
 
   
 
