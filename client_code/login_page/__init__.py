@@ -31,11 +31,8 @@ class login_page(
 
     # Success login
     if user:
-
       # Ensure profile exists
-      anvil.server.call(
-        'ensure_user_profile'
-      )
+      anvil.server.call('ensure_user_profile')
 
       # Go homepage
       open_form(
