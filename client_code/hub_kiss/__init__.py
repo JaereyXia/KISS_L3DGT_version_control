@@ -26,31 +26,10 @@ class hub_kiss(hub_kissTemplate):
 
 
   # -------------------------
-  # Form show
-  # Avoid SuspensionError
+  # Form show event
   # -------------------------
-  @handle("show")
   @handle("", "show")
   def form_show(self, **event_args):
-    # Get current user
-    self.user = anvil.users.get_user()
-
-  # Get role
-  self.role = anvil.server.call(
-    'get_user_role'
-  )
-
-  # Hide button first
-  self.manage_users_button.visible = False
-
-  # Teacher only
-  if self.role == "teacher":
-
-    self.manage_users_button.visible = True
-
-  # Refresh posts
-  self.refresh_post()
-
     # Get current user
     self.user = anvil.users.get_user()
 
@@ -59,7 +38,7 @@ class hub_kiss(hub_kissTemplate):
       'get_user_role'
     )
 
-    # Hide manage button first
+    # Hide manage user button
     self.manage_users_button.visible = False
 
     # Teacher only
@@ -81,7 +60,7 @@ class hub_kiss(hub_kissTemplate):
       'get_post'
     )
 
-    # Send post + role + user
+    # Send role + user + post
     self.cards_panel.items = [
 
       {
@@ -95,7 +74,7 @@ class hub_kiss(hub_kissTemplate):
 
 
   # -------------------------
-  # New post
+  # Create new post
   # -------------------------
   @handle(
     "New_post_button",
@@ -127,7 +106,7 @@ class hub_kiss(hub_kissTemplate):
 
 
   # -------------------------
-  # Enter search
+  # Search enter
   # -------------------------
   @handle(
     "search_bar",
@@ -166,7 +145,7 @@ class hub_kiss(hub_kissTemplate):
         .strip()
     )
 
-    # Blank search
+    # Show all posts
     if keyword == "":
 
       self.refresh_post()
@@ -174,14 +153,11 @@ class hub_kiss(hub_kissTemplate):
 
     # Search
     results = anvil.server.call(
-
       'search_posts',
-
       keyword
-
     )
 
-    # Update panel
+    # Show results
     self.cards_panel.items = [
 
       {
@@ -212,7 +188,7 @@ class hub_kiss(hub_kissTemplate):
 
 
   # -------------------------
-  # Go homepage
+  # Poster page
   # -------------------------
   @handle(
     "poster_button",
@@ -229,7 +205,7 @@ class hub_kiss(hub_kissTemplate):
 
 
   # -------------------------
-  # Logout system
+  # Logout
   # -------------------------
   @handle(
     "logout_button",
@@ -240,13 +216,11 @@ class hub_kiss(hub_kissTemplate):
     **event_args
   ):
 
-    # Ask for confirmation
+    # Confirm logout
     confirm = alert(
 
-      content=(
-        "Are you sure "
-        "you want to logout?"
-      ),
+      content=
+      "Are you sure you want to logout?",
 
       title="Logout",
 
@@ -259,13 +233,11 @@ class hub_kiss(hub_kissTemplate):
       ]
     )
 
-    # Confirm logout
+    # Logout
     if confirm:
 
-      # Logout current user
       anvil.users.logout()
 
-      # Return login page
       open_form(
         'login_page'
       )
