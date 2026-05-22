@@ -5,6 +5,38 @@ from anvil.tables import app_tables
 from datetime import datetime
 import uuid
 
+# -------------------------
+# Create profile
+# After signup/login
+# -------------------------
+@anvil.server.callable
+def ensure_user_profile():
+
+  # Get current logged-in user
+  user = anvil.users.get_user()
+
+  # No user
+  if not user:
+    return None
+
+  # Check if profile exists
+  profile = app_tables.profiles.get(
+    user=user
+  )
+
+  # First signup
+  if not profile:
+
+    app_tables.profiles.add_row(
+
+      user=user,
+
+      # Default role
+      role="student"
+
+    )
+
+  return True
 
 # -------------------------
 # Create post
@@ -145,21 +177,27 @@ def search_posts(keyword):
 @anvil.server.callable
 def get_user_role():
 
-  user = (
-    anvil.users.get_user()
-  )
+  user = anvil.users.get_user()
 
+  # Not logged in
   if not user:
     return None
 
-  profile = (
-    app_tables.profiles.get(
-      user=user
-    )
+  profile = app_tables.profiles.get(
+    user=user
   )
 
+  # Safety:
+  # auto create profile
   if not profile:
-    return "student"
+
+    profile = (
+      app_tables.profiles
+        .add_row(
+          user=user,
+          role="student"
+        )
+    )
 
   return profile['role']
 
