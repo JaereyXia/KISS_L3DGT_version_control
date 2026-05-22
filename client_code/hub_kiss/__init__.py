@@ -1,97 +1,271 @@
 from ._anvil_designer import hub_kissTemplate
 from anvil import *
+
 import anvil.server
-import anvil.google.auth, anvil.google.drive
+import anvil.users
+
+import anvil.google.auth
+import anvil.google.drive
 from anvil.google.drive import app_files
+
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-import anvil.users
-
 
 
 class hub_kiss(hub_kissTemplate):
+
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
+
+    # Set Form properties
     self.init_components(**properties)
-    self.refresh_post()
+
+    # Default values
+    self.user = None
+    self.role = None
 
 
-    self.user = anvil.users.get_user()
-
-    self.role = anvil.server.call('get_user_role')
-    
-    # Hide button
-    self.manage_users_button.visible = False
-    # Teacher only
-    if self.role == "teacher":
-      self.manage_users_button.visible = True
-  
-    # Any code you write here will run before the form opens.
-
-  @handle("New_post_button", "click")
-  def New_post_button_click(self, **event_args):
-    open_form('add_card') #bring the user to the card adding page
-    
-  def refresh_post(self):
-    # Load existing articles from the Data Table, 
-    # and display them in the RepeatingPanel
+  # -------------------------
+  # Form show
+  # Avoid SuspensionError
+  # -------------------------
+  @handle("show")
+  @handle("", "show")
+  def form_show(self, **event_args):
     # Get current user
     self.user = anvil.users.get_user()
 
-    # Get role once only
-    self.role = anvil.server.call('get_user_role')
+  # Get role
+  self.role = anvil.server.call(
+    'get_user_role'
+  )
+
+  # Hide button first
+  self.manage_users_button.visible = False
+
+  # Teacher only
+  if self.role == "teacher":
+
+    self.manage_users_button.visible = True
+
+  # Refresh posts
+  self.refresh_post()
+
+    # Get current user
+    self.user = anvil.users.get_user()
+
+    # Get role
+    self.role = anvil.server.call(
+      'get_user_role'
+    )
+
+    # Hide manage button first
+    self.manage_users_button.visible = False
+
+    # Teacher only
+    if self.role == "teacher":
+
+      self.manage_users_button.visible = True
+
+    # Load posts
+    self.refresh_post()
+
+
+  # -------------------------
+  # Refresh posts
+  # -------------------------
+  def refresh_post(self):
 
     # Get posts
-    posts = anvil.server.call('get_post')
-
-    # Add role + user info
-    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in posts]
-
-  @handle("search_bar", "pressed_enter")
-  def search_bar_pressed_enter(self, **event_args):
-    """This method is called when the user presses Enter in this text box"""
-    self.search_posts()#the user can either enter the search bar to research the posters
-
-  @handle("research_button", "click")
-  def research_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.search_posts()#Or if the user use the research button, it will also research the posters
-
-  def search_posts(self):#serach the posters 
-    keyword = self.search_bar.text
-    if keyword == "":#Show all posts when the search bar is blank
-      self.refresh_post()
-      return
-    results = anvil.server.call('search_posts', keyword)#else if the search bar is not blank
-    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in results]
-
-  @handle("search_bar", "change")
-  def search_bar_change(self, **event_args):
-    """This method is called when the text in this text box is edited"""
-    #adding live rearching so the user can see all poster
-    keyword = self.search_bar.text.strip()
-    if keyword == "":
-      self.refresh_post()
-      return
-    results = anvil.server.call(
-      'search_posts',
-      keyword
+    posts = anvil.server.call(
+      'get_post'
     )
-    self.cards_panel.items = [{'post': row,'role': self.role,'user': self.user}for row in results]
 
-  @handle("manage_users_button", "click")
-  def manage_users_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    open_form('manage_users')
+    # Send post + role + user
+    self.cards_panel.items = [
 
-  @handle("poster_button", "click")
-  def poster_button_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    open_form('hub_kiss')
+      {
+        'post': row,
+        'role': self.role,
+        'user': self.user
+      }
 
-  
-
-  
+      for row in posts
+    ]
 
 
+  # -------------------------
+  # New post
+  # -------------------------
+  @handle(
+    "New_post_button",
+    "click"
+  )
+  def New_post_button_click(
+    self,
+    **event_args
+  ):
+
+    open_form(
+      'add_card'
+    )
+
+
+  # -------------------------
+  # Search button
+  # -------------------------
+  @handle(
+    "research_button",
+    "click"
+  )
+  def research_button_click(
+    self,
+    **event_args
+  ):
+
+    self.search_posts()
+
+
+  # -------------------------
+  # Enter search
+  # -------------------------
+  @handle(
+    "search_bar",
+    "pressed_enter"
+  )
+  def search_bar_pressed_enter(
+    self,
+    **event_args
+  ):
+
+    self.search_posts()
+
+
+  # -------------------------
+  # Live search
+  # -------------------------
+  @handle(
+    "search_bar",
+    "change"
+  )
+  def search_bar_change(
+    self,
+    **event_args
+  ):
+
+    self.search_posts()
+
+
+  # -------------------------
+  # Search system
+  # -------------------------
+  def search_posts(self):
+
+    keyword = (
+      self.search_bar.text
+        .strip()
+    )
+
+    # Blank search
+    if keyword == "":
+
+      self.refresh_post()
+      return
+
+    # Search
+    results = anvil.server.call(
+
+      'search_posts',
+
+      keyword
+
+    )
+
+    # Update panel
+    self.cards_panel.items = [
+
+      {
+        'post': row,
+        'role': self.role,
+        'user': self.user
+      }
+
+      for row in results
+    ]
+
+
+  # -------------------------
+  # Manage users
+  # -------------------------
+  @handle(
+    "manage_users_button",
+    "click"
+  )
+  def manage_users_button_click(
+    self,
+    **event_args
+  ):
+
+    open_form(
+      'manage_users'
+    )
+
+
+  # -------------------------
+  # Go homepage
+  # -------------------------
+  @handle(
+    "poster_button",
+    "click"
+  )
+  def poster_button_click(
+    self,
+    **event_args
+  ):
+
+    open_form(
+      'hub_kiss'
+    )
+
+
+  # -------------------------
+  # Logout system
+  # -------------------------
+  @handle(
+    "logout_button",
+    "click"
+  )
+  def logout_button_click(
+    self,
+    **event_args
+  ):
+
+    # Ask for confirmation
+    confirm = alert(
+
+      content=(
+        "Are you sure "
+        "you want to logout?"
+      ),
+
+      title="Logout",
+
+      buttons=[
+
+        ("Logout", True),
+
+        ("Cancel", False)
+
+      ]
+    )
+
+    # Confirm logout
+    if confirm:
+
+      # Logout current user
+      anvil.users.logout()
+
+      # Return login page
+      open_form(
+        'login_page'
+      )

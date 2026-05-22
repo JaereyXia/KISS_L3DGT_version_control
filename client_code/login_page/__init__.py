@@ -17,11 +17,24 @@ class login_page(
       **properties
     )
 
-    # Auto login
     self.login()
 
 
   def login(self):
+
+    # Already logged in
+    user = (
+      anvil.users.get_user()
+    )
+
+    # Go homepage directly
+    if user:
+
+      open_form(
+        'hub_kiss'
+      )
+
+      return
 
     # Open login/signup form
     user = (
@@ -29,10 +42,13 @@ class login_page(
         .login_with_form()
     )
 
-    # Success login
+    # Login success
     if user:
-      # Ensure profile exists
-      anvil.server.call('ensure_user_profile')
+
+      # Create profile
+      anvil.server.call(
+        'ensure_user_profile'
+      )
 
       # Go homepage
       open_form(

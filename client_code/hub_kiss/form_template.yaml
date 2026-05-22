@@ -55,7 +55,7 @@ components:
     properties: {text: Manage Users}
     type: Button
   - layout_properties: {grid_position: 'QGZNRM,XVAZRN'}
-    name: button_4
+    name: logout_button
     properties: {text: Logout}
     type: Button
   layout_properties: {slot: left-nav}
