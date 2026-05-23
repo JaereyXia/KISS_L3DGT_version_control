@@ -7,59 +7,67 @@ class card_template(card_templateTemplate):
 
   def __init__(self, **properties):
 
+    # Initialize form components
     self.init_components(**properties)
+    
 
-    # Get data
+    # Get current post data
     post = self.item['post']
+
+    # Get current user role
     role = self.item['role']
+
+    # Get current logged in user
     user = self.item['user']
-
+    
     # -------------------------
-    # Show title/content
+    # Display post information
     # -------------------------
 
-    self.title_label.text = (
-      post['Card_name']
-    )
+    # Show post title
+    self.title_label.text = post['Card_name']
 
-    self.content_label.text = (
-      post['Content']
-    )
+    # Show post content
+    self.content_label.text = post['Content']
 
 
     # -------------------------
     # Image system
     # -------------------------
 
-    # Hide image if empty
+    # Hide image area if
+    # there is no uploaded image
     if post['image'] is None:
 
       self.image_1.visible = False
 
     else:
 
+      # Show image
       self.image_1.visible = True
-      self.image_1.source = (
-        post['image']
-      )
+
+      # Load image from database
+      self.image_1.source = post['image']
+
 
     # -------------------------
     # Permission system
     # -------------------------
 
-    # Hide buttons by default
+    # Hide edit/delete buttons
+    # by default
     self.edit_button.visible = False
     self.delete_button.visible = False
 
-    # Teacher:
-    # full permission
+    # Teacher can edit/delete
+    # all posts
     if role == "teacher":
 
       self.edit_button.visible = True
       self.delete_button.visible = True
 
-    # Student / ambassadors:
-    # own post only
+    # Students / ambassadors
+    # can only edit their own post
     elif post['creator'] == user:
 
       self.edit_button.visible = True
@@ -67,12 +75,10 @@ class card_template(card_templateTemplate):
 
 
   @handle("edit_button", "click")
-  def edit_button_click(
-    self,
-    **event_args
-  ):
+  def edit_button_click(self, **event_args):
 
-    # Open edit form
+    # Open edit page
+    # Pass selected post row
     open_form(
       'edit_card',
       row=self.item['post']
@@ -80,18 +86,11 @@ class card_template(card_templateTemplate):
 
 
   @handle("delete_button", "click")
-  def delete_button_click(
-    self,
-    **event_args
-  ):
+  def delete_button_click(self, **event_args):
 
-    # Confirm delete
+    # Ask user to confirm delete
     confirm = alert(
-      content=(
-        "Are you sure "
-        "you want to "
-        "delete this post?"
-      ),
+      content="Are you sure you want to delete this post?",
       title="Delete Post",
       buttons=[
         ("Delete", True),
@@ -99,15 +98,20 @@ class card_template(card_templateTemplate):
       ]
     )
 
+    # Delete if confirmed
     if confirm:
 
+      # Call server function
+      # to delete database row
       anvil.server.call(
         'delete_post',
         self.item['post']
       )
 
+      # Success message
       Notification(
         "Post deleted"
       ).show()
 
+      # Refresh homepage
       open_form('hub_kiss')

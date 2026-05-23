@@ -7,63 +7,43 @@ class user_card(user_cardTemplate):
 
   def __init__(self, **properties):
 
-    self.init_components(
-      **properties
-    )
+    # Initialize form
+    self.init_components(**properties)
 
-    # -----------------
-    # Dropdown options
-    # -----------------
-
+    # Dropdown role options
     self.role_dropdown.items = [
-
       "student",
       "ambassador",
       "teacher"
-
     ]
 
-    # -----------------
-    # Show email
-    # -----------------
-
+    # Show user email
     self.email_label.text = (
       self.item['user']['email']
     )
 
-    # -----------------
-    # Current role
-    # -----------------
-
+    # Show current role
     self.role_dropdown.selected_value = (
       self.item['role']
     )
 
 
-  @handle(
-    "save_button",
-    "click"
-  )
-  def save_button_click(
-    self,
-    **event_args
-  ):
+  # -------------------------
+  # Save role update
+  # -------------------------
+  @handle("save_button", "click")
+  def save_button_click(self, **event_args):
 
     # Get selected role
     role = (
-      self.role_dropdown
-        .selected_value
+      self.role_dropdown.selected_value
     )
 
-    # Update role
+    # Update user role
     anvil.server.call(
-
       'update_user_role',
-
-      self.item,
-
+      self.item['user'],
       role
-
     )
 
     Notification(

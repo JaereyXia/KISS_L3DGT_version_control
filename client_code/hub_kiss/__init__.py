@@ -1,26 +1,17 @@
 from ._anvil_designer import hub_kissTemplate
 from anvil import *
-
 import anvil.server
 import anvil.users
-
-import anvil.google.auth
-import anvil.google.drive
-from anvil.google.drive import app_files
-
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
 
 
 class hub_kiss(hub_kissTemplate):
 
   def __init__(self, **properties):
 
-    # Set Form properties
+    # Initialize form
     self.init_components(**properties)
 
-    # Default values
+    # Store current user info
     self.user = None
     self.role = None
 
@@ -30,20 +21,24 @@ class hub_kiss(hub_kissTemplate):
   # -------------------------
   @handle("", "show")
   def form_show(self, **event_args):
-    # Get current user
+
+    # Get logged in user
     self.user = anvil.users.get_user()
 
-    # Get role
-    self.role = anvil.server.call(
-      'get_user_role'
-    )
+    # If not logged in
+    # return to login page
+    if not self.user:
+      open_form('login_page')
+      return
 
-    # Hide manage user button
+    # Get current role
+    self.role = anvil.server.call('get_user_role')
+
+    # Hide manage users button
     self.manage_users_button.visible = False
 
     # Teacher only
     if self.role == "teacher":
-
       self.manage_users_button.visible = True
 
     # Load posts
@@ -55,67 +50,43 @@ class hub_kiss(hub_kissTemplate):
   # -------------------------
   def refresh_post(self):
 
-    # Get posts
-    posts = anvil.server.call(
-      'get_post'
-    )
+    # Get all posts
+    posts = anvil.server.call('get_post')
 
-    # Send role + user + post
+    # Send data to repeating panel
     self.cards_panel.items = [
-
       {
         'post': row,
         'role': self.role,
         'user': self.user
       }
-
       for row in posts
     ]
 
 
   # -------------------------
-  # Create new post
+  # New post
   # -------------------------
-  @handle(
-    "New_post_button",
-    "click"
-  )
-  def New_post_button_click(
-    self,
-    **event_args
-  ):
+  @handle("New_post_button", "click")
+  def New_post_button_click(self, **event_args):
 
-    open_form(
-      'add_card'
-    )
+    open_form('add_card')
 
 
   # -------------------------
   # Search button
   # -------------------------
-  @handle(
-    "research_button",
-    "click"
-  )
-  def research_button_click(
-    self,
-    **event_args
-  ):
+  @handle("research_button", "click")
+  def research_button_click(self, **event_args):
 
     self.search_posts()
 
 
   # -------------------------
-  # Search enter
+  # Press enter search
   # -------------------------
-  @handle(
-    "search_bar",
-    "pressed_enter"
-  )
-  def search_bar_pressed_enter(
-    self,
-    **event_args
-  ):
+  @handle("search_bar", "pressed_enter")
+  def search_bar_pressed_enter(self, **event_args):
 
     self.search_posts()
 
@@ -123,14 +94,8 @@ class hub_kiss(hub_kissTemplate):
   # -------------------------
   # Live search
   # -------------------------
-  @handle(
-    "search_bar",
-    "change"
-  )
-  def search_bar_change(
-    self,
-    **event_args
-  ):
+  @handle("search_bar", "change")
+  def search_bar_change(self, **event_args):
 
     self.search_posts()
 
@@ -140,100 +105,63 @@ class hub_kiss(hub_kissTemplate):
   # -------------------------
   def search_posts(self):
 
-    keyword = (
-      self.search_bar.text
-        .strip()
-    )
+    keyword = self.search_bar.text.strip()
 
     # Show all posts
     if keyword == "":
-
       self.refresh_post()
       return
 
-    # Search
-    results = anvil.server.call(
-      'search_posts',
-      keyword
-    )
+    # Get search results
+    results = anvil.server.call('search_posts',keyword)
 
-    # Show results
-    self.cards_panel.items = [
-
-      {
-        'post': row,
-        'role': self.role,
-        'user': self.user
+    # Update repeating panel
+    self.cards_panel.items = [{
+      'post': row,      
+      'role': self.role,
+      'user': self.user
       }
-
       for row in results
     ]
 
 
   # -------------------------
-  # Manage users
+  # Manage users page
   # -------------------------
-  @handle(
-    "manage_users_button",
-    "click"
-  )
-  def manage_users_button_click(
-    self,
-    **event_args
-  ):
+  @handle("manage_users_button", "click")
+  def manage_users_button_click(self, **event_args):
 
-    open_form(
-      'manage_users'
-    )
+    open_form('manage_users')
 
 
   # -------------------------
-  # Poster page
+  # Home button
   # -------------------------
-  @handle(
-    "poster_button",
-    "click"
-  )
-  def poster_button_click(
-    self,
-    **event_args
-  ):
+  @handle("poster_button", "click")
+  def poster_button_click(self, **event_args):
 
-    open_form(
-      'hub_kiss'
-    )
+    open_form('hub_kiss')
 
 
   # -------------------------
-  # Logout
+  # Logout system
   # -------------------------
-  @handle(
-    "logout_button",
-    "click"
-  )
   @handle("logout_button", "click")
-  def logout_button_click(self,**event_args):
+  def logout_button_click(self, **event_args):
 
-    # Confirm logout
+    # Ask for confirmation
     confirm = alert(
-      content= "Are you sure you want to logout?",
-
+      content="Are you sure you want to logout?",
       title="Logout",
-
       buttons=[
-
         ("Logout", True),
-
         ("Cancel", False)
-
       ]
     )
 
-    # Logout
+    # Logout if confirmed
     if confirm:
 
       anvil.users.logout()
 
-      open_form(
-        'login_page'
-      )
+      open_form('login_page')
