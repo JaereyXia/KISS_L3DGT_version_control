@@ -10,7 +10,7 @@ class add_card(add_cardTemplate):
 
     # Initialize form
     self.init_components(**properties)
-
+    #get user role for premission
     self.role = anvil.server.call('get_user_role')
     # Hide button
     self.manage_users_button.visible = False
@@ -147,3 +147,30 @@ class add_card(add_cardTemplate):
   def manage_users_button_click(self, **event_args):
     """This method is called when the button is clicked"""
     open_form('manage_users')
+
+  @handle("logout_button", "click")
+  def logout_button_click(self,**event_args):
+
+    # Confirm logout
+    confirm = alert(
+      content= "Are you sure you want to logout?",
+
+      title="Logout",
+
+      buttons=[
+
+        ("Logout", True),
+
+        ("Cancel", False)
+
+      ]
+    )
+
+    # Logout
+    if confirm:
+
+      anvil.users.logout()
+
+      open_form(
+        'login_page'
+      )

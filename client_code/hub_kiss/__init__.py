@@ -211,16 +211,12 @@ class hub_kiss(hub_kissTemplate):
     "logout_button",
     "click"
   )
-  def logout_button_click(
-    self,
-    **event_args
-  ):
+  @handle("logout_button", "click")
+  def logout_button_click(self,**event_args):
 
     # Confirm logout
     confirm = alert(
-
-      content=
-      "Are you sure you want to logout?",
+      content= "Are you sure you want to logout?",
 
       title="Logout",
 
